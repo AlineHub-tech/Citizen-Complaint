@@ -11,6 +11,7 @@ A modern digital platform that empowers citizens to submit complaints, track the
 
 📸ScreenShoot(Demo)
 
+![citi_080552](https://github.com/user-attachments/assets/4c0baf3d-9418-45f8-b356-9d2b7259a0a7)
 
 📝 Overview
 
