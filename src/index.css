@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    to bottom right,
+    #0d47a1 30%,
+    #3cb371 60%,
+    #f4d03f 100%
+  );
+  background-attachment: fixed;
+  color: #fff;
+}
