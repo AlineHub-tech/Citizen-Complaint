@@ -1,8 +1,3 @@
-Here is the clean, polished, fully-English README for your Citizen Complaints & 
-Engagement System — professional and GitHub-ready 
-
-
----
 
 🗳 Citizen Complaints & Engagement System
 
