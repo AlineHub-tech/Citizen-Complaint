@@ -1,0 +1,34 @@
+login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.login-box {
+  background: rgba(255,255,255,0.2);
+  padding: 35px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.login-box button {
+  padding: 12px 25px;
+  background: #0d47a1;
+  color: white;
+  border-radius: 6px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+

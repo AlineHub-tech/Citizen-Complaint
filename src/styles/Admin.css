@@ -1,0 +1,63 @@
+.dashboard-container {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: auto;
+  color: #fff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.complaint-card {
+  background: rgba(255,255,255,0.2);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.complaint-card p {
+  margin: 6px 0;
+}
+
+.pending {
+  color: #f4d03f;
+  font-weight: bold;
+}
+
+.resolved {
+  color: #3cb371;
+  font-weight: bold;
+}
+
+.admin-actions {
+  margin-top: 10px;
+}
+
+.btn-reply {
+  background: #3cb371;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media(max-width:768px){
+  .complaint-card { padding: 15px; }
+  h2 { font-size: 24px; }
+  .btn-reply, .btn-delete { padding: 6px 10px; font-size: 14px; }
+}
+

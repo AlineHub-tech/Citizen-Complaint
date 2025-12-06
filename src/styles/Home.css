@@ -1,0 +1,39 @@
+.landing {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.landing h1 {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.cards {
+  margin: 50px auto;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  width: 280px;
+  padding: 25px;
+  backdrop-filter: blur(4px);
+}
+
+.icon {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 12px 28px;
+  background: #0d47a1;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
