@@ -1,50 +1,96 @@
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: #0d47a1;
-  color: white;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000f1f; /* Ikirere cy'ingenzi */
+    color: white;
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.logo span { color: yellow; }
-
-.links {
-  display: flex;
-  gap: 25px;
+.nav-links {
+    display: flex;
+    align-items: center;
 }
 
-.links a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
+.nav-links a {
+    color: white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
 }
 
-.menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 26px;
+.nav-links a:hover, .active-link {
+    background-color: #003366;
+    border-radius: 4px;
+}
+
+.nav-icon {
+    display: none; /* Hiding hamburger icon by default on desktop */
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #004d99;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 1rem 1.5rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .nav-icon {
+        display: block; /* Showing hamburger icon on mobile */
+    }
+}
+/* ... (existing styles) ... */
+
+.language-switcher img {
+    width: 30px; /* Size of the flag images */
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    opacity: 0.6;
+    transition: opacity 0.3s, border-color 0.3s;
+}
+
+.language-switcher img:hover, .language-switcher img.active-flag {
+    opacity: 1;
+    border-color: white;
 }
 
 @media (max-width: 768px) {
-  .links {
-    display: none;
-    flex-direction: column;
-    background: #0d47a155;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    padding: 15px;
-    border-radius: 8px;
-  }
-  .links.open { display: flex; }
-  .menu-btn { display: block; }
+    /* ... (existing mobile styles) ... */
+    .language-switcher {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+    }
 }
-

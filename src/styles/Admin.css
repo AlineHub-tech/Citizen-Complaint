@@ -1,63 +1,156 @@
-.dashboard-container {
-  padding: 40px 20px;
-  max-width: 900px;
-  margin: auto;
-  color: #fff;
+.admin-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 32px;
+.admin-card {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid;
 }
 
-.complaint-card {
-  background: rgba(255,255,255,0.2);
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+.admin-card.pending {
+    border-color: #ff9800;
 }
 
-.complaint-card p {
-  margin: 6px 0;
+.admin-card.resolved {
+    border-color: #4caf50;
 }
 
-.pending {
-  color: #f4d03f;
-  font-weight: bold;
+.admin-card h3 {
+    margin-bottom: 0.5rem;
 }
 
-.resolved {
-  color: #3cb371;
-  font-weight: bold;
+.admin-card button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #004d99;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.admin-actions {
-  margin-top: 10px;
+.response-text {
+    margin-top: 1rem;
+    font-style: italic;
+    color: #555;
 }
 
-.btn-reply {
-  background: #3cb371;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  margin-right: 10px;
-  cursor: pointer;
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.btn-delete {
-  background: red;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
 }
 
-@media(max-width:768px){
-  .complaint-card { padding: 15px; }
-  h2 { font-size: 24px; }
-  .btn-reply, .btn-delete { padding: 6px 10px; font-size: 14px; }
+.modal-content textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
 }
 
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+/* Iyi style ikikiza form yose (The wrapper div in AdminPage.jsx) */
+.admin-login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Ituma iguma hagati mu rupapuro */
+    background-color: #F8F9FA; /* Background yoroheje */
+    padding: 20px;
+}
+
+.login-form {
+    background: #fff; /* Form background yera */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Agacurama gake */
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Umwanya hagati ya labels na button */
+}
+
+.login-form h2 {
+    color: #343A40; /* Inyandiko yijimye */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #555;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.login-form input:focus {
+    border-color: #007BFF; /* Ibara rikuru iyo ukanditsemo */
+    outline: none;
+}
+
+.login-form button {
+    background-color: #007BFF; /* Ibara ry'ubururu rikuru */
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+    background-color: #0056b3; /* Ubururu bwijimye gato iyo uyikoreyeho */
+}
+
+/* Style y'ubutumwa bw'amakosa (Invalid password/username) */
+.error-message {
+    color: #DC3545; /* Ibara ritukura */
+    background-color: #f8d7da; /* Background itukura yoroshye */
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: 10px;
+}

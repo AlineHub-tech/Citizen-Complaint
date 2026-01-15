@@ -1,0 +1,22 @@
+.complaint-status-card {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 5px solid;
+}
+
+.complaint-status-card.pending {
+    border-color: #ff9800;
+    background-color: #fff3e0;
+}
+
+.complaint-status-card.resolved {
+    border-color: #4caf50;
+    background-color: #e8f5e9;
+}
+
+.admin-response {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ccc;
+}
