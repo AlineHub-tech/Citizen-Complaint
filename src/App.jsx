@@ -1,33 +1,45 @@
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Home from "./pages/Home";
-import ComplaintsForm from "./pages/ComplaintsForm";
-import AdminDashboard from "./pages/AdminDashboard";
-import UserDashboard from "./pages/UserDashboard";
-import AdminLogin from "./pages/AdminLogin";
-import EditComplaint from "./pages/EditComplaint";
-import About from "./pages/About";
+// Zose Providers dukeneye
+import { LanguageProvider } from './contexts/LanguageContext';
+import { ComplaintProvider } from './contexts/ComplaintContext'; 
+// ✅ Import neza Admin Auth Provider (line 6)
+import { AdminAuthProvider } from './contexts/AdminAuthContext'; 
+
+// Components na Pages
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import LandingPage from './pages/LandingPage';
+import SubmitComplaintPage from './pages/SubmitComplaintPage'; 
+import TrackComplaintPage from './pages/TrackComplaintPage';   
+import AdminPage from './pages/AdminPage';                   
 
 function App() {
-  return (
-    <>
-      <Navbar />
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/complaint" element={<ComplaintsForm />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/edit/:id" element={<EditComplaint />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-
-      <Footer />
-    </>
-  );
+    return (
+        <Router>
+            {/* Providers zigomba gutangira hejuru */}
+            <LanguageProvider>
+                <ComplaintProvider> 
+                    {/* ✅ ADMINAUTHPROVIDER yongeyemo neza */}
+                    <AdminAuthProvider>
+                        <div className="App">
+                            <Navbar />
+                            <main>
+                                <Routes>
+                                    <Route path="/" element={<LandingPage />} />
+                                    <Route path="/submit" element={<SubmitComplaintPage />} />
+                                    <Route path="/track" element={<TrackComplaintPage />} />
+                                    <Route path="/admin" element={<AdminPage />} />
+                                </Routes>
+                            </main>
+                            <Footer />
+                        </div>
+                    </AdminAuthProvider>
+                </ComplaintProvider>
+            </LanguageProvider>
+        </Router>
+    );
 }
 
 export default App;
