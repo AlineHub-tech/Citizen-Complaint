@@ -5,9 +5,10 @@ A modern digital platform that empowers citizens to submit complaints, track the
  and engage directly with service providers in a transparent and efficient way.
 
 📸ScreenShoot(Demo)
-
-![citi_080552](https://github.com/user-attachments/assets/4c0baf3d-9418-45f8-b356-9d2b7259a0a7)
-
+<img width="1351" height="628" alt="c1" src="https://github.com/user-attachments/assets/6d6c7333-75df-4670-8fb9-46da2172ae1d" />
+<img width="1345" height="629" alt="c2" src="https://github.com/user-attachments/assets/6fd4cfde-e8d1-4e03-875a-0d8410be384e" />
+<img width="1344" height="497" alt="c4" src="https://github.com/user-attachments/assets/499e58d1-eaa4-488e-81e9-0f927f7cb3a6" />
+<img width="1351" height="630" alt="c5" src="https://github.com/user-attachments/assets/7ab52f40-b26d-4646-80e7-700ee7bf6620" />
 📝 Overview
 
 The Citizen Complaints & Engagement System is a React-based application that 
