@@ -1,13 +1,13 @@
-import React from 'react';
-import { useState } from 'react'; 
+import React, { useState } from 'react';
 import { useComplaints } from '../contexts/ComplaintContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { FaUser, FaMapMarkerAlt, FaUserTie, FaClipboardList, FaCheckCircle, FaPaperPlane } from 'react-icons/fa';
 import '../styles/Forms.css';
 
 const SubmitComplaintPage = () => {
     const { addComplaint } = useComplaints();
     const { t } = useLanguage();
-    // ✅ IMPINDUKA HANO: twakuyemo 'leaderLocation' kuko itari kuri form
+    
     const [formData, setFormData] = useState({
         citizenName: '', location: '', leaderName: '', leaderRole: '', details: ''
     });
@@ -20,57 +20,73 @@ const SubmitComplaintPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validation check for empty fields irahagaze neza ubu
         if (Object.values(formData).some(field => field.trim() === '')) {
-            alert(t('formErrorFillAll'));
+            alert(t('formErrorFillAll') || "Please fill all fields");
             return;
         }
         
-        // ✅ IMPINDUKA HANO: Guhuza data twohereje muri Context
-        // addComplaint ubu yakira object itarimo leaderLocation
         const id = addComplaint(formData); 
         setTrackId(id);
         setSubmissionStatus('success');
-        // Reset form fields after successful submission
         setFormData({ citizenName: '', location: '', leaderName: '', leaderRole: '', details: '' });
     };
 
     return (
-        <div className="form-container">
-            <h1>{t('submit')}</h1>
-            {submissionStatus === 'success' ? (
-                <div className="success-message">
-                    <p>{t('formSuccessTitle')}</p>
-                    <p>{t('formSuccessBody')} <strong>{trackId}</strong></p>
-                    <button onClick={() => setSubmissionStatus(null)}>{t('formSubmitAnother')}</button>
-                </div>
-            ) : (
-                <form onSubmit={handleSubmit}>
-                    {/* ... (ibindi bice bya form birakomeza nkuko byari biri) ... */}
-                    <label>
-                        {t('formCitizenName')}:
-                        <input type="text" name="citizenName" value={formData.citizenName} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        {t('formLocation')}:
-                        <input type="text" name="location" value={formData.location} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        {t('formLeaderName')}:
-                        <input type="text" name="leaderName" value={formData.leaderName} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        {t('formLeaderRole')}:
-                        <input type="text" name="leaderRole" value={formData.leaderRole} onChange={handleChange} required />
-                    </label>
-                    {/* Nta label ya leaderLocation iri hano, noneho twarayikuyemo hejuru */}
-                    <label>
-                        {t('formDetails')}:
-                        <textarea name="details" value={formData.details} onChange={handleChange} rows={5} required />
-                    </label>
-                    <button type="submit">{t('formSubmitBtn')}</button>
-                </form>
-            )}
+        <div className="form-page-wrapper">
+            <div className="form-card">
+                {submissionStatus === 'success' ? (
+                    <div className="success-container">
+                        <div className="success-icon-anim"><FaCheckCircle /></div>
+                        <h2>{t('formSuccessTitle') || "Submission Successful!"}</h2>
+                        <p>{t('formSuccessBody') || "Your tracking ID is:"}</p>
+                        <div className="tracking-id-badge">{trackId}</div>
+                        <p className="note">Please save this ID to track your resolution progress.</p>
+                        <button className="btn-retry" onClick={() => setSubmissionStatus(null)}>
+                            {t('formSubmitAnother') || "Submit Another Report"}
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        <div className="form-header">
+                            <h1>{t('submit') || "Submit a Report"}</h1>
+                            <p>Your voice matters. Fill the form below to reach the authorities.</p>
+                        </div>
+                        
+                        <form onSubmit={handleSubmit} className="modern-form">
+                            <div className="input-row">
+                                <div className="input-group">
+                                    <label><FaUser /> {t('formCitizenName')}</label>
+                                    <input type="text" name="citizenName" placeholder="Your Full Name" value={formData.citizenName} onChange={handleChange} required />
+                                </div>
+                                <div className="input-group">
+                                    <label><FaMapMarkerAlt /> {t('formLocation')}</label>
+                                    <input type="text" name="location" placeholder="Province, District, Sector" value={formData.location} onChange={handleChange} required />
+                                </div>
+                            </div>
+
+                            <div className="input-row">
+                                <div className="input-group">
+                                    <label><FaUserTie /> {t('formLeaderName')}</label>
+                                    <input type="text" name="leaderName" placeholder="Leader's Name" value={formData.leaderName} onChange={handleChange} required />
+                                </div>
+                                <div className="input-group">
+                                    <label><FaClipboardList /> {t('formLeaderRole')}</label>
+                                    <input type="text" name="leaderRole" placeholder="Position (e.g. Mayor, Chief)" value={formData.leaderRole} onChange={handleChange} required />
+                                </div>
+                            </div>
+
+                            <div className="input-group full-width">
+                                <label><FaClipboardList /> {t('formDetails')}</label>
+                                <textarea name="details" value={formData.details} onChange={handleChange} placeholder="Describe the issue in detail..." rows={5} required />
+                            </div>
+
+                            <button type="submit" className="submit-btn-pro">
+                                {t('formSubmitBtn') || "Send Report"} <FaPaperPlane />
+                            </button>
+                        </form>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

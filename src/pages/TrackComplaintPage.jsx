@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState } from 'react'; 
+import React, { useState } from 'react';
 import { useComplaints } from '../contexts/ComplaintContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import '../styles/Forms.css';
+import { FaSearch, FaRegClock, FaCheckCircle, FaExclamationCircle, FaUserTie, FaHistory } from 'react-icons/fa';
 import '../styles/Tracking.css'; 
 
 const TrackComplaintPage = () => {
@@ -15,47 +14,88 @@ const TrackComplaintPage = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         setError('');
+        if (!trackId.trim()) return;
+
         const foundComplaint = getComplaintById(trackId);
         if (foundComplaint) {
             setComplaint(foundComplaint);
         } else {
             setComplaint(null);
-            setError(t('trackErrorNotFound'));
+            setError(t('trackErrorNotFound') || "Tracking ID not found. Please check and try again.");
         }
     };
 
-    // Helper function to get translated status text
-    const getStatusText = (statusKey) => {
-        return t(`status${statusKey}`);
-    };
-
     return (
-        <div className="form-container">
-            <h1>{t('trackPageTitle')}</h1>
-            <form onSubmit={handleSearch}>
-                <label>
-                    {t('trackInputPlaceholder')}:
-                    <input type="number" value={trackId} onChange={(e) => setTrackId(e.target.value)} required />
-                </label>
-                <button type="submit">{t('trackSearchBtn')}</button>
-            </form>
-
-            {error && <p className="error-message">{error}</p>}
-
-            {complaint && (
-                <div className={`complaint-status-card ${complaint.status.toLowerCase()}`}>
-                    <h2>{t('trackIssue')} # {complaint.id}</h2>
-                    <p><strong>{t('trackStatus')}:</strong> {getStatusText(complaint.status)}</p>
-                    <p><strong>{t('trackDate')}:</strong> {new Date(complaint.date).toLocaleString()}</p>
-                    <p><strong>{t('trackIssue')}:</strong> {complaint.details}</p>
-                    {complaint.response && (
-                        <div className="admin-response">
-                            <strong>{t('trackAdminResponse')}:</strong>
-                            <p>{complaint.response}</p>
-                        </div>
-                    )}
+        <div className="track-page-wrapper">
+            <div className="track-card-container">
+                {/* SEARCH SECTION */}
+                <div className="track-header">
+                    <div className="icon-bg-circle"><FaHistory /></div>
+                    <h1>{t('trackPageTitle') || "Track Your Report"}</h1>
+                    <p>Enter your unique Tracking ID to see the current status of your submission.</p>
                 </div>
-            )}
+
+                <form onSubmit={handleSearch} className="modern-track-form">
+                    <div className="search-input-group">
+                        <FaSearch className="search-icon-inside" />
+                        <input 
+                            type="text" 
+                            placeholder={t('trackInputPlaceholder') || "Enter Tracking ID (e.g. 1001)"} 
+                            value={trackId} 
+                            onChange={(e) => setTrackId(e.target.value)} 
+                            required 
+                        />
+                        <button type="submit" className="btn-track-pro">{t('trackSearchBtn') || "Track Status"}</button>
+                    </div>
+                </form>
+
+                {error && <div className="track-error-box"><FaExclamationCircle /> {error}</div>}
+
+                {/* RESULT SECTION */}
+                {complaint && (
+                    <div className="status-result-area animate-fade-in">
+                        <div className={`status-banner ${complaint.status.toLowerCase()}`}>
+                            <div className="status-info">
+                                <span>{t('trackStatus') || "Current Status"}:</span>
+                                <h3>{t(`status${complaint.status}`) || complaint.status}</h3>
+                            </div>
+                            <div className="status-icon">
+                                {complaint.status === 'Resolved' ? <FaCheckCircle /> : <FaRegClock />}
+                            </div>
+                        </div>
+
+                        <div className="complaint-details-grid">
+                            <div className="detail-item">
+                                <label>Case ID</label>
+                                <p>#{complaint.id}</p>
+                            </div>
+                            <div className="detail-item">
+                                <label>{t('trackDate') || "Submission Date"}</label>
+                                <p>{new Date(complaint.date).toLocaleDateString()}</p>
+                            </div>
+                            <div className="detail-item full-row">
+                                <label>{t('trackIssue') || "Reported Issue"}</label>
+                                <p className="issue-text">{complaint.details}</p>
+                            </div>
+                        </div>
+
+                        {/* LEADER RESPONSE BOX */}
+                        {complaint.response ? (
+                            <div className="official-response-box">
+                                <div className="official-header">
+                                    <FaUserTie />
+                                    <h4>{t('trackAdminResponse') || "Official Response"}</h4>
+                                </div>
+                                <p>{complaint.response}</p>
+                            </div>
+                        ) : (
+                            <div className="pending-notice">
+                                <FaRegClock /> Our officials are currently reviewing your case. Please check back later.
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

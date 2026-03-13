@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useComplaints } from '../contexts/ComplaintContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { useAdminAuth } from '../contexts/AdminAuthContext'; // Import nshya
+import { useAdminAuth } from '../contexts/AdminAuthContext';
+import { 
+  FaUserShield, FaLock, FaSignOutAlt, FaInbox, 
+  FaCheckCircle, FaClock, FaReply, FaUserTie 
+} from 'react-icons/fa';
 import '../styles/Admin.css'; 
+
 const AdminPage = () => {
     const { complaints, adminRespond } = useComplaints();
     const { t } = useLanguage();
-    // Dukoresha useAdminAuth hooks
     const { isAdminAuthenticated, login, logout } = useAdminAuth(); 
     
     const [responseModal, setResponseModal] = useState(null); 
@@ -14,92 +18,160 @@ const AdminPage = () => {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState(false);
 
-    // ... (handleResponseSubmit na getStatusText functions zikomeza kimwe)
     const handleResponseSubmit = (e, complaintId) => {
         e.preventDefault();
         const responseText = e.target.response.value;
         if (responseText.trim()) {
             adminRespond(complaintId, responseText);
             setResponseModal(null); 
-        } else {
-            alert("Please write a response.");
         }
     };
 
-    const getStatusText = (statusKey) => {
-        return t(`status${statusKey}`);
-    };
-
-    // Function ya login handler
     const handleLoginSubmit = (e) => {
         e.preventDefault();
-        if (login(username, password)) {
-            setLoginError(false);
-        } else {
+        if (!login(username.trim().toLowerCase(), password)) {
             setLoginError(true);
         }
     };
 
-
-    // ✅ Hano niho habera itandukaniro rikomeye:
+    // --- LOGIN UI ---
     if (!isAdminAuthenticated) {
         return (
-            <div className="admin-login-container">
-                <h2>Admin Login</h2>
-                <form onSubmit={handleLoginSubmit} className="login-form">
-                    <label>
-                        Username:
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    </label>
-                    <button type="submit">Login</button>
-                    {loginError && <p className="error-message">Invalid username or password.</p>}
-                </form>
+            <div className="admin-auth-wrapper">
+                <div className="auth-card">
+                    <div className="auth-icon"><FaUserShield /></div>
+                    <h2>Admin Portal</h2>
+                    <p>Secure access for authorized officials only.</p>
+                    
+                    <form onSubmit={handleLoginSubmit} className="auth-form">
+                        <div className="form-group-pro">
+                            <label>Username</label>
+                            <input 
+                                type="text" 
+                                value={username} 
+                                onChange={(e) => setUsername(e.target.value)} 
+                                placeholder="Enter admin username"
+                                autoCapitalize="none"
+                                required 
+                            />
+                        </div>
+                        <div className="form-group-pro">
+                            <label>Password</label>
+                            <input 
+                                type="password" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                placeholder="••••••••"
+                                required 
+                            />
+                        </div>
+                        <button type="submit" className="btn-auth">Login to Dashboard</button>
+                        {loginError && <div className="auth-error">Invalid credentials. Please try again.</div>}
+                    </form>
+                </div>
             </div>
         );
     }
 
-    // Ibi bigaragara gusa umuntu amaze kwinjira neza (logged in)
-    return (
-        <div className="admin-container">
-            <div className="admin-header-actions">
-                <h1>{t('adminTitle')}</h1>
-                <button onClick={logout} className="logout-btn">Logout</button>
-            </div>
-            <p>{t('adminTotal')}: {complaints.length}</p>
-            
-            <div className="complaint-list">
-                {/* ... (ibirimo hano byose birakomeza nkuko byari biri) ... */}
-                {complaints.sort((a, b) => b.id - a.id).map((complaint) => (
-                    <div key={complaint.id} className={`admin-card ${complaint.status.toLowerCase()}`}>
-                        <h3>{t('adminIssue')} #{complaint.id} ({getStatusText(complaint.status)})</h3>
-                        <p>{t('adminFrom')}: <strong>{complaint.citizenName}</strong>, {t('adminLocation')}: <strong>{complaint.location}</strong></p>
-                        <p>{t('adminTo')}: <strong>{complaint.leaderName}</strong> ({complaint.leaderRole})</p>
-                        <p className="details">{t('adminIssue')}: {complaint.details}</p>
-                        
-                        {complaint.status === 'Pending' ? (
-                            <button onClick={() => setResponseModal(complaint.id)}>{t('adminRespondBtn')}</button>
-                        ) : (
-                            <p className="response-text">{t('adminResponseText')}: {complaint.response}</p>
-                        )}
-                    </div>
-                ))}
-            </div>
+    // --- DASHBOARD UI ---
+    const pendingCount = complaints.filter(c => c.status === 'Pending').length;
+    const resolvedCount = complaints.filter(c => c.status === 'Resolved').length;
 
-            {/* Response Modal (iguma kimwe) */}
+    return (
+        <div className="admin-dashboard">
+            <header className="dash-header">
+                <div className="container">
+                    <div className="header-left">
+                        <h1>{t('adminTitle') || "Admin Dashboard"}</h1>
+                        <p>Welcome back, Official Administrator</p>
+                    </div>
+                    <button onClick={logout} className="btn-logout">
+                        <FaSignOutAlt /> Logout
+                    </button>
+                </div>
+            </header>
+
+            <main className="container dash-content">
+                {/* STATS SECTION */}
+                <section className="stats-grid">
+                    <div className="stat-card blue">
+                        <FaInbox className="s-icon" />
+                        <div><h3>{complaints.length}</h3><p>Total Reports</p></div>
+                    </div>
+                    <div className="stat-card orange">
+                        <FaClock className="s-icon" />
+                        <div><h3>{pendingCount}</h3><p>Pending Review</p></div>
+                    </div>
+                    <div className="stat-card green">
+                        <FaCheckCircle className="s-icon" />
+                        <div><h3>{resolvedCount}</h3><p>Resolved Cases</p></div>
+                    </div>
+                </section>
+
+                {/* LIST SECTION */}
+                <section className="reports-section">
+                    <div className="section-title-pro">
+                        <h2>Recent Submissions</h2>
+                        <div className="title-line"></div>
+                    </div>
+
+                    <div className="reports-list">
+                        {complaints.sort((a, b) => b.id - a.id).map((complaint) => (
+                            <div key={complaint.id} className="report-card-v2">
+                                <div className="card-top">
+                                    <span className={`status-pill ${complaint.status.toLowerCase()}`}>
+                                        {t(`status${complaint.status}`) || complaint.status}
+                                    </span>
+                                    <span className="case-id">Case #{complaint.id}</span>
+                                </div>
+                                
+                                <div className="card-body-pro">
+                                    <div className="citizen-info">
+                                        <FaUserShield className="mini-icon" />
+                                        <p><strong>{complaint.citizenName}</strong> from {complaint.location}</p>
+                                    </div>
+                                    <div className="leader-info">
+                                        <FaUserTie className="mini-icon" />
+                                        <p>Targeted: <strong>{complaint.leaderName}</strong> ({complaint.leaderRole})</p>
+                                    </div>
+                                    <p className="issue-desc">"{complaint.details}"</p>
+                                </div>
+
+                                <div className="card-footer-pro">
+                                    {complaint.status === 'Pending' ? (
+                                        <button className="btn-respond" onClick={() => setResponseModal(complaint.id)}>
+                                            <FaReply /> {t('adminRespondBtn') || "Respond Now"}
+                                        </button>
+                                    ) : (
+                                        <div className="final-response">
+                                            <strong>Official Response:</strong>
+                                            <p>{complaint.response}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </main>
+
+            {/* MODAL WINDOW */}
             {responseModal && (
-                // ... code ya modal ...
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>{t('adminModalTitle')} #{responseModal}</h2>
+                <div className="modal-overlay-pro">
+                    <div className="modal-card-pro animate-pop">
+                        <div className="modal-header">
+                            <h3>Responding to Case #{responseModal}</h3>
+                            <button className="close-x" onClick={() => setResponseModal(null)}>&times;</button>
+                        </div>
                         <form onSubmit={(e) => handleResponseSubmit(e, responseModal)}>
-                            <textarea name="response" rows={4} placeholder={t('adminModalPlaceholder')} required></textarea>
-                            <div className="modal-actions">
-                                <button type="submit">{t('adminModalSend')}</button>
-                                <button type="button" onClick={() => setResponseModal(null)}>{t('adminModalClose')}</button>
+                            <textarea 
+                                name="response" 
+                                placeholder="Type the official resolution or feedback here..." 
+                                required
+                            ></textarea>
+                            <div className="modal-btns">
+                                <button type="button" className="btn-cancel" onClick={() => setResponseModal(null)}>Cancel</button>
+                                <button type="submit" className="btn-submit-response">Submit Resolution</button>
                             </div>
                         </form>
                     </div>
