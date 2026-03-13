@@ -1,27 +1,75 @@
-{
-  
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* --- 1. GLOBAL RESET: Ibi nibyo bibuza screen kurenga --- */
+* {
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-    font-family: sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+html, body {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important; /* Ibi nibyo bikuraho kunyerera iburyo */
+  position: relative;
+  touch-action: manipulation;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
+/* --- 2. CONTAINER FIX: Birinda section kurenga screen --- */
+.container, 
+.nav-container, 
+.footer-container, 
+.store-container, 
+.form-card,
+.track-card-container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 15px !important; /* Biha umwanya impande zose kuri mobile */
 }
 
-ul {
-    list-style: none;
+/* --- 3. GRID RESPONSIVE: Bihindura amakarita yose kuri Mobile --- */
+.grid, 
+.product-grid, 
+.store-grid, 
+.clean-grid, 
+.cards-container,
+.expertise-grid,
+.footer-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 20px !important;
+  width: 100% !important;
 }
 
-main {
-    min-height: 70vh; /* Kugirango footer ijye hasi */
-    padding: 20px;
+/* --- 4. MEDIA QUERIES FOR MOBILE (Phone Fixes) --- */
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem !important; /* Gabanya inyandiko nini cyane */
+    line-height: 1.2 !important;
+  }
+
+  /* Force 1 Column on Mobile */
+  .grid-2, .grid-contact, .detail-grid, .grid-2-clean, .input-row {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  /* Image Fix: Birinda amashusho kurenga screen */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Button Fix: Stack buttons vertically */
+  .hero-cta-group, .hero-btns, .action-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .btn-main-dark, .btn-primary-blue, .btn-outline-blue, .btn-gold-main {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
 }
