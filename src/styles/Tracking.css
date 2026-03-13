@@ -1,22 +1,106 @@
-.complaint-status-card {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border-left: 5px solid;
+:root {
+    --primary-blue: #0052cc;
+    --accent-cyan: #00b8d9;
+    --dark-blue: #0747a6;
+    --bg-gray: #f4f5f7;
+    --white: #ffffff;
+    --text-dark: #172b4d;
+    --success: #36b37e;
+    --pending: #ffab00;
 }
 
-.complaint-status-card.pending {
-    border-color: #ff9800;
-    background-color: #fff3e0;
+.track-page-wrapper {
+    background: var(--bg-gray);
+    padding: 80px 5%;
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
 }
 
-.complaint-status-card.resolved {
-    border-color: #4caf50;
-    background-color: #e8f5e9;
+.track-card-container {
+    width: 100%;
+    max-width: 700px;
+    background: var(--white);
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    border: 1px solid #dfe1e6;
 }
 
-.admin-response {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #ccc;
+.track-header { text-align: center; margin-bottom: 40px; }
+.icon-bg-circle {
+    width: 70px; height: 70px; background: #ebf5ff;
+    color: var(--primary-blue); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 20px;
+}
+.track-header h1 { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 10px; }
+.track-header p { color: #5e6c84; font-size: 1rem; }
+
+/* SEARCH FORM */
+.modern-track-form { margin-bottom: 30px; }
+.search-input-group {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+.search-icon-inside {
+    position: absolute;
+    left: 20px; top: 50%; transform: translateY(-50%);
+    color: var(--primary-blue);
+}
+.search-input-group input {
+    width: 100%; padding: 18px 20px 18px 55px;
+    border: 2px solid #dfe1e6; border-radius: 12px;
+    font-size: 1.1rem; outline: none; transition: 0.3s;
+}
+.search-input-group input:focus { border-color: var(--primary-blue); background: #f0f7ff; }
+
+.btn-track-pro {
+    background: var(--primary-blue); color: white;
+    border: none; padding: 0 30px; border-radius: 12px;
+    font-weight: 800; cursor: pointer; transition: 0.3s;
+}
+.btn-track-pro:hover { background: var(--dark-blue); transform: translateY(-2px); }
+
+/* STATUS RESULT */
+.status-banner {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 25px; border-radius: 15px; margin-bottom: 30px; color: white;
+}
+.status-banner.resolved { background: var(--success); }
+.status-banner.pending { background: var(--pending); }
+.status-banner span { font-size: 0.85rem; text-transform: uppercase; opacity: 0.9; font-weight: 700; }
+.status-banner h3 { font-size: 1.8rem; margin: 0; }
+.status-icon { font-size: 3rem; opacity: 0.3; }
+
+.complaint-details-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    background: #f9f9f9; padding: 25px; border-radius: 12px;
+}
+.detail-item label { display: block; font-size: 0.75rem; text-transform: uppercase; color: #888; font-weight: 800; }
+.detail-item p { font-weight: 700; color: var(--text-dark); margin-top: 5px; }
+.full-row { grid-column: span 2; }
+.issue-text { font-weight: 400 !important; color: #555 !important; line-height: 1.6; }
+
+/* RESPONSE BOX */
+.official-response-box {
+    margin-top: 30px; padding: 25px; border-radius: 12px;
+    background: #e7f4ff; border-left: 5px solid var(--primary-blue);
+}
+.official-header { display: flex; align-items: center; gap: 10px; color: var(--primary-blue); margin-bottom: 10px; }
+.official-header h4 { margin: 0; font-size: 1.1rem; }
+
+.track-error-box {
+    background: #fff0f0; color: #d00000; padding: 15px;
+    border-radius: 10px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .track-card-container { padding: 30px 20px; }
+    .search-input-group { flex-direction: column; }
+    .btn-track-pro { padding: 18px; }
+    .complaint-details-grid { grid-template-columns: 1fr; }
+    .full-row { grid-column: span 1; }
 }

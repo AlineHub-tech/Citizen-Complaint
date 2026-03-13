@@ -1,96 +1,102 @@
-.navbar {
+:root {
+    --primary-blue: #0052cc;
+    --dark-blue: #0747a6;
+    --white: #ffffff;
+    --text-dark: #172b4d;
+}
+
+/* 1. NAVBAR BASE - HANO NIHO HAKOSOWE */
+.main-navbar {
+    background: var(--white);
+    height: 75px;
+    width: 100%;
+    /* Koresha fixed kugira ngo ntaho ijya na rimwe */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 10000; /* Izamure cyane ngo itajya munsi y'ibindi */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    /* Siba overflow: hidden hano kuko yategaga sticky */
+}
+
+/* 2. CONTAINER */
+.nav-container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000f1f; /* Ikirere cy'ingenzi */
-    color: white;
-    padding: 1rem 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 3. LOGO STYLE */
 .navbar-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.nav-links {
     display: flex;
     align-items: center;
+    gap: 12px;
+    text-decoration: none;
 }
 
-.nav-links a {
+.logo-icon-bg {
+    background: var(--primary-blue);
     color: white;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background-color 0.3s;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; font-size: 1.4rem;
 }
 
-.nav-links a:hover, .active-link {
-    background-color: #003366;
-    border-radius: 4px;
+.logo-text { display: flex; flex-direction: column; }
+.logo-main { font-size: 1.2rem; font-weight: 900; color: var(--text-dark); letter-spacing: 1px; line-height: 1; }
+.logo-sub { font-size: 0.65rem; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-top: 2px; }
+
+/* 4. DESKTOP MENU */
+.nav-menu { display: flex; align-items: center; gap: 40px; }
+.nav-links-list { display: flex; gap: 25px; }
+
+.nav-links-list a {
+    text-decoration: none; color: var(--text-dark);
+    font-weight: 700; font-size: 0.95rem;
+    display: flex; align-items: center; gap: 8px;
+    transition: 0.3s;
 }
 
-.nav-icon {
-    display: none; /* Hiding hamburger icon by default on desktop */
-    cursor: pointer;
-    font-size: 1.5rem;
-}
+.nav-links-list a:hover, .active-link { color: var(--primary-blue) !important; }
+.nav-i { font-size: 1.1rem; color: #888; transition: 0.3s; }
+.active-link .nav-i { color: var(--primary-blue); }
 
-/* Responsive styles for mobile */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #004d99;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* 5. FLAGS */
+.language-bar { display: flex; gap: 12px; padding-left: 20px; border-left: 2px solid #eee; }
+.flag-img { width: 28px; height: 18px; cursor: pointer; border-radius: 3px; transition: 0.3s; opacity: 0.6; object-fit: cover; }
+.flag-img:hover, .active-f { opacity: 1; transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+/* 6. MOBILE STYLES */
+.mobile-toggle { display: none; font-size: 1.6rem; cursor: pointer; color: var(--text-dark); }
+
+@media (max-width: 1024px) {
+    .mobile-toggle { display: block; }
+    .nav-menu {
+        position: fixed; 
+        top: 0; 
+        right: -100%;
+        flex-direction: column; 
+        background: var(--white);
+        width: 280px; 
+        height: 100vh; 
+        padding: 100px 30px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        align-items: flex-start; 
+        gap: 40px;
     }
-
-    .nav-links.active {
-        display: flex;
-    }
-
-    .nav-links a {
-        padding: 1rem 1.5rem;
-        text-align: center;
-        width: 100%;
-    }
-
-    .nav-icon {
-        display: block; /* Showing hamburger icon on mobile */
-    }
-}
-/* ... (existing styles) ... */
-
-.language-switcher img {
-    width: 30px; /* Size of the flag images */
-    height: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    opacity: 0.6;
-    transition: opacity 0.3s, border-color 0.3s;
+    .nav-menu.active { right: 0; }
+    .nav-links-list { flex-direction: column; width: 100%; }
+    .nav-links-list a { font-size: 1.2rem; padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
+    .language-bar { border: none; padding: 0; }
 }
 
-.language-switcher img:hover, .language-switcher img.active-flag {
-    opacity: 1;
-    border-color: white;
-}
-
-@media (max-width: 768px) {
-    /* ... (existing mobile styles) ... */
-    .language-switcher {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-    }
+/* 7. ICYITONDERWA: Kubera ko navbar ari fixed, page igomba gutangirira hasi yayo */
+body {
+    padding-top: 75px;
 }

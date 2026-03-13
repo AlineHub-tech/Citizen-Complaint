@@ -1,89 +1,82 @@
-.footer {
-   background-color: #000f1f;
-    color: white;
-    padding: 2rem 0;
-    margin-top: 40px;
+:root {
+    --primary-blue: #0052cc;
+    --footer-dark: #172b4d;
+    --text-muted: #a5adba;
+    --white: #ffffff;
+    --orange-dev:#ff4d05; /* Orange for Byteflow Ltd */
 }
 
-.footer-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
+.main-footer {
+    background: var(--footer-dark);
+    color: var(--white);
+    padding: 80px 0 20px;
+    margin-top: 50px;
+    border-top: 4px solid var(--primary-blue);
 }
 
-.footer-col {
-    flex: 1;
-    min-width: 200px;
-    margin-bottom: 1rem;
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 50px;
 }
 
-.footer-col h4 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    border-left: 3px solid #004d99;
-    padding-left: 10px;
+/* BRANDING */
+.footer-logo { font-size: 1.6rem; font-weight: 900; margin-bottom: 20px; color: var(--white); }
+.footer-logo span { color: var(--primary-blue); }
+.footer-desc { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; margin-bottom: 25px; }
+
+.social-links { display: flex; gap: 15px; }
+.social-links a {
+    width: 38px; height: 38px; background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; color: white; transition: 0.3s;
+}
+.social-links a:hover { background: var(--primary-blue); transform: translateY(-3px); }
+
+/* SECTIONS */
+.footer-section h3 { font-size: 1.1rem; margin-bottom: 25px; font-weight: 700; position: relative; text-transform: uppercase; letter-spacing: 1px; }
+.footer-section h3::after {
+    content: ''; position: absolute; left: 0; bottom: -8px; 
+    width: 30px; height: 2px; background: var(--primary-blue);
 }
 
-.footer-col ul li {
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.links ul { list-style: none; }
+.links ul li { margin-bottom: 12px; }
+.links ul li a { color: var(--text-muted); text-decoration: none; transition: 0.3s; font-size: 0.95rem; }
+.links ul li a:hover { color: var(--white); padding-left: 5px; }
+
+/* CONTACT */
+.contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: var(--text-muted); font-size: 0.9rem; }
+.contact-item svg { color: var(--primary-blue); }
+
+/* NEWSLETTER */
+.news-form { display: flex; margin-top: 15px; background: rgba(255,255,255,0.08); padding: 5px; border-radius: 6px; }
+.news-form input {
+    background: transparent; border: none; padding: 10px; color: white; width: 100%; outline: none; font-size: 0.9rem;
+}
+.news-form button {
+    background: var(--primary-blue); color: white; border: none; padding: 0 15px; border-radius: 4px; cursor: pointer;
 }
 
-.footer-col ul li a {
-    color: #ccc;
+/* FOOTER BOTTOM */
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 30px; }
+.bottom-flex { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem; }
+
+.orange-link {
+    color: var(--orange-dev) !important;
+    text-decoration: none;
+    font-weight: 800;
 }
 
-.social-icons a {
-    margin-right: 1rem;
-    font-size: 1.5rem;
-    color: #ccc;
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.footer-col input {
-    padding: 0.5rem;
-    width: 70%;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-}
-
-.footer-col button {
-    padding: 0.5rem 1rem;
-    background-color: #004d99;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.footer-bottom {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #555;
-    font-size: 0.8rem;
-}
-
-@media (max-width: 768px) {
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .footer-col h4 {
-        border-left: none;
-        padding-left: 0;
-        margin-top: 1rem;
-    }
-    .footer-col ul li {
-        justify-content: center;
-    }
-    .social-icons {
-        margin-top: 1rem;
-    }
+@media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-section h3::after { left: 50%; transform: translateX(-50%); }
+    .social-links, .contact-item { justify-content: center; }
+    .bottom-flex { flex-direction: column; gap: 15px; }
 }
