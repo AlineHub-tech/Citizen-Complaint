@@ -1,208 +1,201 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// Amazina y'indimi n'udukode twazo
-const languages = {
-    kiny: 'Kinyarwanda',
-    en: 'English',
-    fr: 'Français',
-};
-
-// Inkuru z'urubuga mu ndimi zose (Zose ziri hano hasi)
 const translations = {
     kiny: {
-        appName: "Irembo", // Nahinduye izina hano
+        // --- NAVBAR & GLOBAL ---
+        appName: "Citizen Complaint",
         home: "Ahabanza",
         submit: "Tanga Ikibazo",
         track: "Kurikirana",
-        admin: "Admin",
-        homeTitle: "Platform yo Gutanga Ibibazo by'Abaturage",
-        homeSubtitle: "Uburyo bworoshye kandi bwihuse bwo kuvugana n'abayobozi b'inzego zibanze.",
-        ctaButton: "Tanga Ikibazo Ubu",
-        howItWorks: "Uko Bikora",
-        card1Title: "Andika Ikibazo",
-        card1Desc: "Wuzuza ifishi isobanutse, ugaragaza izina ryawe, aho ubarizwa, n'umuyobozi ubishinzwe.",
-        card2Title: "Gukurikirana",
-        card2Desc: "Haboneka nimero y'ikibazo, bigatuma uba ufite ubushobozi bwo kugikurikirana.",
-        card3Title: "Kubona Igisubizo",
-        card3Desc: "Umuyobozi asubiza ikibazo, nawe ukabona igisubizo kuri platform.",
-        quickLinks: "Quick Links",
-        contactUs: "Contact Us",
-        newsletter: "Newsletter Subscribe",
-        newsletterPlaceholder: "Email Address yawe",
-        copyright: "Irembo Platform. Uburenganzira bwose burabitswe.",
-
-        // New keys for pages ... (ibi ntibyahindutse)
-        formCitizenName: "Izina ry'umuturage",
-        formLocation: "Aho ubarizwa (Akagari/Umudugudu)",
-        formLeaderName: "Izina ry'Ubuyobozi/Umuyobozi",
-        formLeaderRole: "Icyo ashinzwe / Aho akorera",
-        formDetails: "Ikibazo cyangwa igitekerezo",
-        formSubmitBtn: "Ohereza Ikibazo",
-        formSuccessTitle: "Ikibazo cyawe cyakiriwe neza!",
-        formSuccessBody: "Numero yo kugikurikirana ni:",
-        formSubmitAnother: "Tanga ikindi kibazo",
-        formErrorFillAll: "Please fill in all fields.",
+        admin: "Ubuyobozi",
         
-        trackPageTitle: "Kurikirana Ikibazo",
-        trackInputPlaceholder: "Shyiramo Nimero y'Ikibazo",
+        // --- LANDING PAGE ---
+        homeTitle: "Vugana n'Abayobozi bawe mu buryo bworoshye",
+        homeSubtitle: "Uburyo bwizewe kandi bukorera mu mucyo bwo guhuza abaturage n'abayobozi b'inzego zibanze kugira ngo duteze imbere imibereho yacu.",
+        ctaButton: "Tanga Raporo Ubu",
+        howItWorks: "Uko Bikora",
+        card1Title: "Andika Raporo",
+        card1Desc: "Tanga ubusobanuro bw'ikibazo n'umuyobozi ubishinzwe kugira ngo gisuzumwe.",
+        card2Title: "Kurikirana",
+        card2Desc: "Koresha nimero wahawe kugira ngo urebe aho ikibazo cyawe kigeze gikemurwa.",
+        card3Title: "Gikemuke",
+        card3Desc: "Habona igisubizo cy'abayobozi kandi wemeze niba ikibazo cyakemuwe neza.",
+        
+        // --- SUBMIT FORM PAGE ---
+        formTitle: "Tanga Raporo Nshya",
+        formCitizenName: "Izina ryawe Ryose",
+        formLocation: "Aho ubarizwa (Intara/Akarere/Umurenge)",
+        formLeaderName: "Izina ry'Umuyobozi",
+        formLeaderRole: "Icyo ashinzwe (Urugero: Meya, Umukuru w'Umudugudu)",
+        formDetails: "Andika ikibazo mu buryo bw'incamake",
+        formSubmitBtn: "Ohereza Raporo",
+        formSuccessTitle: "Raporo yakiriwe neza!",
+        formSuccessBody: "Nimero yo kugikurikirana (ID) ni:",
+        formSubmitAnother: "Tanga indi Raporo",
+        formErrorFillAll: "Nyamuneka wuzuza imyanya yose isabwa.",
+
+        // --- TRACKING PAGE ---
+        trackPageTitle: "Kurikirana aho ikibazo kigeze",
+        trackInputPlaceholder: "Shyiramo Nimero (ID) y'ikibazo",
         trackSearchBtn: "Shakisha",
-        trackErrorNotFound: "Nta kibazo kibonetse kuri iyo nomero. Ongera ugenzure.",
-        trackStatus: "Status",
+        trackErrorNotFound: "Nta kibazo cyabonetse kuri iyo nimero. Ongera ugenzure.",
+        trackStatus: "Imiterere y'ikibazo",
         trackDate: "Igihe cyatangiwe",
         trackIssue: "Ikibazo cyatanzwe",
-        trackAdminResponse: "Igisubizo cy'ubuyobozi",
-        statusPending: "Pending",
-        statusResolved: "Resolved",
+        trackAdminResponse: "Igisubizo cy'Ubuyobozi",
+        statusPending: "Kiracyasuzumwa",
+        statusResolved: "Byakemutse",
 
-        adminTitle: "Admin Dashboard",
-        adminTotal: "Ibibazo byatanzwe byose",
-        adminFrom: "Kuva kuri",
-        adminLocation: "Aho aturuka",
-        adminTo: "Werekeje kuri",
-        adminIssue: "Ikibazo",
-        adminRespondBtn: "Subiza Ikibazo",
-        adminResponseText: "Igisubizo",
-        adminModalTitle: "Subiza Ikibazo",
-        adminModalPlaceholder: "Andika igisubizo cyawe hano...",
-        adminModalSend: "Ohereza Igisubizo",
-        adminModalClose: "Funga",
+        // --- ADMIN DASHBOARD ---
+        adminTitle: "Dashboard y'Ubuyobozi",
+        adminTotal: "Raporo zose zakiriwe",
+        adminPending: "Izigeregerejwe",
+        adminResolved: "Izyakemuwe",
+        adminRespondBtn: "Subiza",
+        adminResponseText: "Igisubizo cy'Ubuyobozi",
 
+        // --- FOOTER ---
+        quickLinks: "Imiyoboro y'Ibwangu",
+        contactUs: "Twandikire",
+        newsletter: "Iyandikishe ku Makuru",
+        newsletterPlaceholder: "Email yawe hano",
+        copyright: "Uburenganzira bwose burabitswe.",
     },
     en: {
-        appName: "Irembo", // Nahinduye izina hano
+        // --- NAVBAR & GLOBAL ---
+        appName: "Citizen Complaint",
         home: "Home",
         submit: "Submit Issue",
         track: "Track Issue",
         admin: "Admin",
-        homeTitle: "Platform for Citizen Complaints",
-        homeSubtitle: "An easy and fast way to communicate with local leadership.",
-        ctaButton: "Submit Issue Now",
+
+        // --- LANDING PAGE ---
+        homeTitle: "Voice Your Concerns Directly to Leaders",
+        homeSubtitle: "A secure and transparent bridge connecting citizens with local authorities for a better and stronger community.",
+        ctaButton: "Start Reporting",
         howItWorks: "How It Works",
-        // ✅ AYA MAGAMBO NAYA ONGEWEMO (Card Translations)
-        card1Title: "Write Down the Issue",
-        card1Desc: "Fill a clear form indicating your name, location, and the responsible leader.",
-        card2Title: "Tracking",
-        card2Desc: "A tracking number is provided, allowing you to follow up on the status.",
-        card3Title: "Receive a Response",
-        card3Desc: "The leader responds to the issue, and you receive the answer on the platform.",
-        quickLinks: "Quick Links",
-        contactUs: "Contact Us",
-        newsletter: "Newsletter Subscribe",
-        newsletterPlaceholder: "Your Email Address",
-        copyright: "Irembo Platform. All rights reserved.",
+        card1Title: "Submit Report",
+        card1Desc: "Provide details about the issue and the specific leader responsible.",
+        card2Title: "Track Status",
+        card2Desc: "Use your unique ID to follow the resolution process in real-time.",
+        card3Title: "Get Resolution",
+        card3Desc: "Receive official feedback and confirm when the issue is fixed.",
 
+        // --- SUBMIT FORM PAGE ---
+        formTitle: "Submit a New Report",
+        formCitizenName: "Your Full Name",
+        formLocation: "Location (Province/District/Sector)",
+        formLeaderName: "Leader's Name",
+        formLeaderRole: "Leader's Role (e.g. Mayor, Chief)",
+        formDetails: "Describe the issue in detail",
+        formSubmitBtn: "Send Report",
+        formSuccessTitle: "Report Submitted Successfully!",
+        formSuccessBody: "Your tracking ID is:",
+        formSubmitAnother: "Submit Another Report",
+        formErrorFillAll: "Please fill in all required fields.",
 
-        formCitizenName: "Citizen's Name",
-        formLocation: "Location (Cell/Village)",
-        formLeaderName: "Leader's/Authority's Name",
-        formLeaderRole: "Role / Workplace",
-        formDetails: "Issue or suggestion",
-        formSubmitBtn: "Submit Complaint",
-        formSuccessTitle: "Your complaint was received successfully!",
-        formSuccessBody: "Your tracking number is:",
-        formSubmitAnother: "Submit another complaint",
-        formErrorFillAll: "Please fill in all fields.",
-
-        trackPageTitle: "Track Complaint",
-        trackInputPlaceholder: "Enter Complaint ID",
-        trackSearchBtn: "Search",
-        trackErrorNotFound: "No complaint found with that number. Please check again.",
-        trackStatus: "Status",
+        // --- TRACKING PAGE ---
+        trackPageTitle: "Track Your Report Status",
+        trackInputPlaceholder: "Enter Tracking ID (e.g. 1001)",
+        trackSearchBtn: "Track Now",
+        trackErrorNotFound: "No report found with that ID. Please check and try again.",
+        trackStatus: "Current Status",
         trackDate: "Date Submitted",
-        trackIssue: "Issue Details",
-        trackAdminResponse: "Administration Response",
+        trackIssue: "Reported Issue",
+        trackAdminResponse: "Official Response",
         statusPending: "Pending",
         statusResolved: "Resolved",
 
+        // --- ADMIN DASHBOARD ---
         adminTitle: "Admin Dashboard",
-        adminTotal: "Total complaints submitted",
-        adminFrom: "From",
-        adminLocation: "Location",
-        adminTo: "Directed to",
-        adminIssue: "Issue",
-        adminRespondBtn: "Respond to Issue",
-        adminResponseText: "Response",
-        adminModalTitle: "Respond to Complaint",
-        adminModalPlaceholder: "Write your response here...",
-        adminModalSend: "Send Response",
-        adminModalClose: "Close",
+        adminTotal: "Total Reports",
+        adminPending: "Pending Review",
+        adminResolved: "Resolved Cases",
+        adminRespondBtn: "Respond",
+        adminResponseText: "Official Response",
+
+        // --- FOOTER ---
+        quickLinks: "Quick Links",
+        contactUs: "Contact Us",
+        newsletter: "Newsletter",
+        newsletterPlaceholder: "Your Email Address",
+        copyright: "All rights reserved.",
     },
     fr: {
-        appName: "Irembo", // Nahinduye izina hano
+        // --- NAVBAR & GLOBAL ---
+        appName: "Citizen Complaint",
         home: "Accueil",
-        submit: "Soumettre Problème",
-        track: "Suivre Problème",
+        submit: "Signaler",
+        track: "Suivre",
         admin: "Admin",
-        homeTitle: "Plateforme de plaintes des citoyens",
-        homeSubtitle: "Un moyen simple et rapide de communiquer avec les dirigeants locaux.",
-        ctaButton: "Soumettre un problème maintenant",
+
+        // --- LANDING PAGE ---
+        homeTitle: "Exprimez vos préoccupations aux dirigeants",
+        homeSubtitle: "Un pont sécurisé et transparent reliant les citoyens aux autorités locales pour une communauté meilleure.",
+        ctaButton: "Commencer le rapport",
         howItWorks: "Comment ça marche",
-         // ✅ AYA MAGAMBO NAYA ONGEWEMO (Card Translations)
-        card1Title: "Écrire le problème",
-        card1Desc: "Remplissez un formulaire clair indiquant votre nom, votre localisation et le responsable concerné.",
+        card1Title: "Soumettre",
+        card1Desc: "Fournissez des détails sur le problème et le responsable concerné.",
         card2Title: "Suivi",
-        card2Desc: "Un numéro de suivi est fourni, vous permettant de suivre l'état d'avancement.",
-        card3Title: "Recevoir une réponse",
-        card3Desc: "Le responsable répond au problème, et vous recevez la réponse sur la plateforme.",
-        quickLinks: "Liens rapides",
-        contactUs: "Contactez-nous",
-        newsletter: "Abonnez-vous",
-        newsletterPlaceholder: "Votre adresse e-mail",
-        copyright: "Irembo Platform. Tous droits réservés.",
+        card2Desc: "Utilisez votre ID pour suivre le processus de résolution en temps réel.",
+        card3Title: "Résolution",
+        card3Desc: "Recevez des commentaires officiels et confirmez la résolution.",
 
+        // --- SUBMIT FORM PAGE ---
+        formTitle: "Soumettre un nouveau rapport",
+        formCitizenName: "Votre nom complet",
+        formLocation: "Localisation (Province/District/Secteur)",
+        formLeaderName: "Nom du dirigeant",
+        formLeaderRole: "Rôle du dirigeant (ex: Maire, Chef)",
+        formDetails: "Décrivez le problème en détail",
+        formSubmitBtn: "Envoyer le rapport",
+        formSuccessTitle: "Rapport soumis avec succès!",
+        formSuccessBody: "Votre ID de suivi est:",
+        formSubmitAnother: "Soumettre un autre",
+        formErrorFillAll: "Veuillez remplir tous les champs obligatoires.",
 
-        formCitizenName: "Nom du citoyen",
-        formLocation: "Localisation (Cellule/Village)",
-        formLeaderName: "Nom du responsable/autorité",
-        formLeaderRole: "Rôle / Lieu de travail",
-        formDetails: "Problème ou suggestion",
-        formSubmitBtn: "Soumettre la plainte",
-        formSuccessTitle: "Votre plainte a été reçue avec succès!",
-        formSuccessBody: "Votre numéro de suivi est:",
-        formSubmitAnother: "Soumettre une autre plainte",
-        formErrorFillAll: "Veuillez remplir tous les champs.",
-
-        trackPageTitle: "Suivre la plainte",
-        trackInputPlaceholder: "Entrez le numéro de plainte",
+        // --- TRACKING PAGE ---
+        trackPageTitle: "Suivre l'état de votre rapport",
+        trackInputPlaceholder: "Entrez l'ID de suivi",
         trackSearchBtn: "Rechercher",
-        trackErrorNotFound: "Aucune plainte trouvée avec ce numéro. Veuillez vérifier à nouveau.",
-        trackStatus: "Statut",
+        trackErrorNotFound: "Aucun rapport trouvé avec cet ID. Veuillez vérifier.",
+        trackStatus: "Statut actuel",
         trackDate: "Date de soumission",
-        trackIssue: "Détails du problème",
-        trackAdminResponse: "Réponse de l'administration",
+        trackIssue: "Problème signalé",
+        trackAdminResponse: "Réponse officielle",
         statusPending: "En attente",
-        statusResolved: "Résolue",
-        
+        statusResolved: "Résolu",
+
+        // --- ADMIN DASHBOARD ---
         adminTitle: "Tableau de bord Admin",
-        adminTotal: "Total des plaintes soumises",
-        adminFrom: "De",
-        adminLocation: "Emplacement",
-        adminTo: "Adressé à",
-        adminIssue: "Problème",
-        adminRespondBtn: "Répondre au problème",
-        adminResponseText: "Réponse",
-        adminModalTitle: "Répondre à la plainte",
-        adminModalPlaceholder: "Écrivez votre réponse ici...",
-        adminModalSend: "Envoyer la réponse",
-        adminModalClose: "Fermer",
-    },
+        adminTotal: "Total des rapports",
+        adminPending: "En attente",
+        adminResolved: "Cas résolus",
+        adminRespondBtn: "Répondre",
+        adminResponseText: "Réponse officielle",
+
+        // --- FOOTER ---
+        quickLinks: "Liens Rapides",
+        contactUs: "Contactez-nous",
+        newsletter: "Newsletter",
+        newsletterPlaceholder: "Votre adresse e-mail",
+        copyright: "Tous droits réservés.",
+    }
 };
 
-
-const LanguageContext = createContext(undefined); 
+const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState('kiny'); 
-    
-    const changeLanguage = (langCode) => {
-        if (languages[langCode]) {
-            setLanguage(langCode);
-        }
+    // Gusoma ururimi rwaherukaga gukoreshwa cyangwa 'kiny' niba ari ubwa mbe
+    const [language, setLanguage] = useState(localStorage.getItem('userLang') || 'kiny');
+
+    const changeLanguage = (lang) => {
+        setLanguage(lang);
+        localStorage.setItem('userLang', lang); // Kubika ururimi umukiriya yahisemo
     };
 
     const t = (key) => {
-        // Genzura neza ko ikiyingiro cy'ururimi n'urufunguzo biboneka
-        return translations[language]?.[key] || key;
+        return translations[language][key] || key;
     };
 
     return (
@@ -212,10 +205,4 @@ export const LanguageProvider = ({ children }) => {
     );
 };
 
-export const useLanguage = () => {
-    const context = useContext(LanguageContext);
-    if (context === undefined) {
-        throw new Error('useLanguage must be used within a LanguageProvider');
-    }
-    return context;
-};
+export const useLanguage = () => useContext(LanguageContext);
